@@ -1,10 +1,19 @@
 {
-    "name": "jdbot",
-    "version": "0.1.5",
-    "description": "Bot for Just-Dice.com",
-    "main": "jdbot.js",
-    "dependencies": {
-        "request": "^2.55.0",
-        "socket.io-client": "dooglus/socket.io-client"
-    }
+  "name": "chatbotv2",
+  "version": "0.2.1",
+  "description": "For learning and fun",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "mathjs": "^3.6.0",
+    "nconf": "^0.8.4",
+    "path": "^0.12.7",
+    "sqlite3": "^3.1.8"
+  }
 }
