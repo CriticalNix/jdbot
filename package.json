@@ -9,11 +9,14 @@
   "author": "me",
   "license": "GPL-3.0",
   "dependencies": {
+    "exists": "^1.0.0",
     "express": "^4.14.0",
     "fs": "0.0.1-security",
     "mathjs": "^3.6.0",
+    "moment": "^2.15.2",
     "nconf": "^0.8.4",
     "path": "^0.12.7",
+    "request": "^2.76.0",
     "socket.io-client": "^1.5.1",
     "sqlite3": "^3.1.8"
   }

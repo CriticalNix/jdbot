@@ -4,6 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var config = require("./config.json");
 var badwords = require("./badwords.json");
+var url = config.url;
 
 var error_count = 0;
 
@@ -22,9 +23,6 @@ balance;
 
 //------------------------------setup---------------------------------------------------
 function setup_all_the_junk() {
-    exists || db.serialize(function() {
-        db.run("CREATE TABLE User(uid INTEGER, name TEXT, last DATETIME, chatcount INTEGER, lastchat TEXT)")
-    });
     fs.existsSync(logs_dir) || fs.mkdirSync(logs_dir);
     fs.existsSync(error_log_file) || fs.openSync(error_log_file, "w");
 };
