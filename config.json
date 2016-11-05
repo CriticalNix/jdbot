@@ -2,9 +2,5 @@
 	"nick": "",
 	"pass": "",
 	"masterID" : "98066",
-	"url" : "https://just-dice.com",
-	"consumer_key" : "",
-	"consumer_secret" : "",
-	"access_token_key" : "",
-	"access_token_secret" : ""
+	"url" : "https://just-dice.com"
 }

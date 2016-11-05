@@ -32,41 +32,6 @@ function handle_txt(txt, date) {}
 
 function Process_commands() {}
 
-//------------------------------twitter stuff-------------------------------------------
-twitterHeartbeat();
-
-function twitterHeartbeat() {
-    setInterval(function() {
-        updateTweets()
-    }, 18E4)
-}
-var tweetArray = [];
-
-function tweetit(a) {
-    tweetArray.push({
-        tweetMsgs: a
-    })
-}
-
-function executeTweet(a) {
-    post_to_twitter(a)
-}
-
-function post_to_twitter(a) {
-    a = a.toString();
-    client.post("statuses/update", {
-        status: a
-    }, function(a, b, c) {
-        a || console.log("Posted to TW:" + b);
-        a && console.log(a)
-    })
-};
-
-function updateTweets() {
-    var a;
-    0 < tweetArray.length && (a = tweetArray[0].tweetMsgs, executeTweet(a), tweetArray.shift())
-};
-
 //------------------------------Login stuff---------------------------------------
 function login_then_run_bot() {
 
