@@ -26,7 +26,21 @@ function setup_all_the_junk() {
 };
 
 //------------------------------Handle chat---------------------------------------
-function handle_txt(txt, date) {}
+function handle_txt(a, c) { //txt, date
+    var d = a.substring(a.indexOf("(") + 1, a.indexOf(")")),
+        e = a.substring(a.indexOf("<") + 1, a.indexOf(">"));
+		//sender_uid, sender_name, message, date
+    switch (a.substring(0, 1)) {
+        case "(":
+            var b = a.substring(a.indexOf(">") + 2, a.length);
+            "*" === a.substring(a.indexOf(")") + 2, a.indexOf(")") + 3) ? (console.log('announcement sender_uid d, sender_name e , message b , date c')) : (console.log('message sender_uid d, sender_name e , message b , date c');
+            break;
+        case "[":
+            console.log(" [ (sender_uid) <sender_name> → (recipient_uid) <recipient_name> ] message"), a.substring(a.indexOf("]") +
+                2, a.length)
+				console.log('PM sender_uid d, sender_name e , message b , date c')
+    }
+};
 
 function Process_commands() {}
 
@@ -72,6 +86,13 @@ function is_this_nice(a) { //returns true if no badwords are found
 	return c
 };
 
+//------------------------------command functions----------------------------------
+function send_tip(b, a, c) { // send a tip to uid, amount, message
+    a = parseFloat(a).toFixed(8);
+    b = "/tip noconf priv " + b + " " + a + ' "' + c + '"';
+    parseFloat(a) < balance ? chat(b) : console.log("Not enough balance")
+};
+
 //------------------------------random stuff---------------------------------------
 function rollDie(a) { // returns a result from a dice with x sides. if no sides specified defaults to 6
 	void 0 == a && (a = 6);
@@ -80,6 +101,12 @@ function rollDie(a) { // returns a result from a dice with x sides. if no sides 
 
 function randomIntFromInterval(a, b) { // returns a random int between a(low) b(high)
 	return Math.floor(Math.random() * (b - a + 1) + a)
+};
+
+//------------------------------Logging---------------------------------------------------
+function log_error(a) {
+    console.log('Logged ERR:' + a);
+    fs.appendFileSync(error_log_file, a + "\n")
 };
 
 //------------------------------Login stuff---------------------------------------
