@@ -11,7 +11,7 @@ var error_count = 0;
 var logs_dir = "logs",
     error_log_file = "logs/error.log";
 
-//------------------------------Run this shit---------------------------------------
+//------------------------------Run this shit------------------------------------
 setup_all_the_junk();
 login_then_run_bot();
 
@@ -21,7 +21,7 @@ csrf,
 uid,
 balance;
 
-//------------------------------setup---------------------------------------------------
+//------------------------------setup--------------------------------------------
 function setup_all_the_junk() {
     fs.existsSync(logs_dir) || fs.mkdirSync(logs_dir);
     fs.existsSync(error_log_file) || fs.openSync(error_log_file, "w");
@@ -31,6 +31,39 @@ function setup_all_the_junk() {
 function handle_txt(txt, date) {}
 
 function Process_commands() {}
+
+function sanitizeString(a) { //Used to clean input
+    a = a.replace(/[^a-z0-9\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc \.,_-]/gim, "");
+    return a.trim()
+}
+
+function trim1(a) { // trim empty junk
+    return a.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
+};
+
+//------------------------------Handle Posting chat-------------------------------
+
+setInterval(function() {
+    updateChatCmds()
+}, 5E3);
+
+var cmdArray = []; // store all the chats
+
+function chat(a) { // use chat('string')
+    cmdArray.push({
+        ChatMsgs: a
+    })
+}
+
+function ExecuteChat(a) { // emit all the chats
+    socket.emit("chat", csrf, a);
+    console.log(momentEpochReadable() + " socket sent: " + a)
+}
+
+function updateChatCmds() { // call and shift all the chats
+    var a;
+    0 < cmdArray.length && (a = cmdArray[0].ChatMsgs, ExecuteChat(a), cmdArray.shift())
+};
 
 //------------------------------Badwords check---------------------------------------
 function is_this_nice(a) { //returns true if no badwords are found
@@ -50,7 +83,9 @@ function randomIntFromInterval(a, b) { // returns a random int between a(low) b(
     return Math.floor(Math.random() * (b - a + 1) + a)
 };
 
+
 //------------------------------Login stuff---------------------------------------
+//--------------------------------------------------------------------------------
 function login_then_run_bot() {
 
 	var credentials = {
