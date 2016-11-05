@@ -32,6 +32,14 @@ function handle_txt(txt, date) {}
 
 function Process_commands() {}
 
+//------------------------------Badwords check---------------------------------------
+function is_this_nice(a) { //returns true if no badwords are found
+    var c = !0;
+    a = a.toLowerCase();
+    for (var b = 0; b < badwords.length; b++) - 1 < a.indexOf(badwords[b]) && (c = !1);
+    return c
+};
+
 //------------------------------Login stuff---------------------------------------
 function login_then_run_bot() {
 
