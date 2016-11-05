@@ -1,7 +1,5 @@
 var request = require('request');
-var moment = require('moment');
 var fs = require("fs");
-var path = require("path");
 var config = require("./config.json");
 var badwords = require("./badwords.json");
 var url = config.url;
@@ -9,7 +7,7 @@ var url = config.url;
 var error_count = 0;
 
 var logs_dir = "logs",
-    error_log_file = "logs/error.log";
+error_log_file = "logs/error.log";
 
 //------------------------------Run this shit------------------------------------
 setup_all_the_junk();
@@ -23,8 +21,8 @@ balance;
 
 //------------------------------setup--------------------------------------------
 function setup_all_the_junk() {
-    fs.existsSync(logs_dir) || fs.mkdirSync(logs_dir);
-    fs.existsSync(error_log_file) || fs.openSync(error_log_file, "w");
+	fs.existsSync(logs_dir) || fs.mkdirSync(logs_dir);
+	fs.existsSync(error_log_file) || fs.openSync(error_log_file, "w");
 };
 
 //------------------------------Handle chat---------------------------------------
@@ -33,56 +31,56 @@ function handle_txt(txt, date) {}
 function Process_commands() {}
 
 function sanitizeString(a) { //Used to clean input
-    a = a.replace(/[^a-z0-9\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc \.,_-]/gim, "");
-    return a.trim()
+	a = a.replace(/[^a-z0-9\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc \.,_-]/gim, "");
+	return a.trim()
 }
 
 function trim1(a) { // trim empty junk
-    return a.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
+	return a.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
 };
 
 //------------------------------Handle Posting chat-------------------------------
 
-setInterval(function() {
-    updateChatCmds()
+setInterval(function () {
+	updateChatCmds()
 }, 5E3);
 
 var cmdArray = []; // store all the chats
 
 function chat(a) { // use chat('string')
-    cmdArray.push({
-        ChatMsgs: a
-    })
+	cmdArray.push({
+		ChatMsgs : a
+	})
 }
 
 function ExecuteChat(a) { // emit all the chats
-    socket.emit("chat", csrf, a);
-    console.log(momentEpochReadable() + " socket sent: " + a)
+	socket.emit("chat", csrf, a);
+	console.log("socket sent: " + a)
 }
 
 function updateChatCmds() { // call and shift all the chats
-    var a;
-    0 < cmdArray.length && (a = cmdArray[0].ChatMsgs, ExecuteChat(a), cmdArray.shift())
+	var a;
+	0 < cmdArray.length && (a = cmdArray[0].ChatMsgs, ExecuteChat(a), cmdArray.shift())
 };
 
 //------------------------------Badwords check---------------------------------------
 function is_this_nice(a) { //returns true if no badwords are found
-    var c = !0;
-    a = a.toLowerCase();
-    for (var b = 0; b < badwords.length; b++) - 1 < a.indexOf(badwords[b]) && (c = !1);
-    return c
+	var c = !0;
+	a = a.toLowerCase();
+	for (var b = 0; b < badwords.length; b++)
+		 - 1 < a.indexOf(badwords[b]) && (c = !1);
+	return c
 };
 
 //------------------------------random stuff---------------------------------------
-function rollDie(a) { // returns a result from a dice with x sides. if no sides specified defaults to 6 
-    void 0 == a && (a = 6);
-    return Math.floor(Math.random() * a + 1)
+function rollDie(a) { // returns a result from a dice with x sides. if no sides specified defaults to 6
+	void 0 == a && (a = 6);
+	return Math.floor(Math.random() * a + 1)
 };
 
 function randomIntFromInterval(a, b) { // returns a random int between a(low) b(high)
-    return Math.floor(Math.random() * (b - a + 1) + a)
+	return Math.floor(Math.random() * (b - a + 1) + a)
 };
-
 
 //------------------------------Login stuff---------------------------------------
 //--------------------------------------------------------------------------------
