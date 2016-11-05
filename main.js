@@ -40,6 +40,16 @@ function is_this_nice(a) { //returns true if no badwords are found
     return c
 };
 
+//------------------------------random stuff---------------------------------------
+function rollDie(a) { // returns a result from a dice with x sides. if no sides specified defaults to 6 
+    void 0 == a && (a = 6);
+    return Math.floor(Math.random() * a + 1)
+};
+
+function randomIntFromInterval(a, b) { // returns a random int between a(low) b(high)
+    return Math.floor(Math.random() * (b - a + 1) + a)
+};
+
 //------------------------------Login stuff---------------------------------------
 function login_then_run_bot() {
 
