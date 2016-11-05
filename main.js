@@ -33,16 +33,64 @@ function handle_txt(a, c) { //txt, date
     switch (a.substring(0, 1)) {
         case "(":
             var b = a.substring(a.indexOf(">") + 2, a.length);
-            "*" === a.substring(a.indexOf(")") + 2, a.indexOf(")") + 3) ? (console.log('announcement sender_uid d, sender_name e , message b , date c')) : (console.log('message sender_uid d, sender_name e , message b , date c');
+            "*" === a.substring(a.indexOf(")") + 2, a.indexOf(")") + 3) ? (console.log(d, e, b, c + ' ')) : (Process_commands(d, e, b, c));
             break;
         case "[":
             console.log(" [ (sender_uid) <sender_name> → (recipient_uid) <recipient_name> ] message"), a.substring(a.indexOf("]") +
                 2, a.length)
 				console.log('PM sender_uid d, sender_name e , message b , date c')
+				Process_commands(d, e, b, c, 'pm')
     }
 };
 
-function Process_commands() {}
+function is_master(uid){
+	if (uid == config.masterid) {
+		return true
+	} else {
+		return false
+	}
+}
+
+function Process_commands(senderuid, senderName, txt, date, pm) {
+	var command = txt.match(/^&/);
+	var cleanText = sanitizeString(txt);
+	if (command) {
+		txt = txt.substring(1);
+		txt = txt.split(/\s+/);
+		console.log(txt[0]);
+		if (is_master(senderuid)) {
+
+			try {
+				switch (txt[0]) {
+				case 'test':
+					console.log("masterid TEST WORKS");
+					break;
+				default:
+					//console.log('unknown command;', txt[0]);
+					break;
+				}
+			} catch (err) {
+				console.log(err);
+				log_error('masterid command err: ' + err);
+			}
+		}
+
+		try {
+			switch (txt[0]) {
+			case 'test':
+				console.log("TEST WORKS");
+				//chat("test works");
+				break;
+			default:
+				console.log('unknown command;', txt[0]);
+				break;
+			}
+		} catch (err) {
+			console.log(err);
+			log_error('command err: ' + err);
+		}
+	}
+}
 
 function sanitizeString(a) { //Used to clean input
 	a = a.replace(/[^a-z0-9\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc \.,_-]/gim, "");
@@ -89,7 +137,7 @@ function is_this_nice(a) { //returns true if no badwords are found
 //------------------------------command functions----------------------------------
 function send_tip(b, a, c) { // send a tip to uid, amount, message
     a = parseFloat(a).toFixed(8);
-    b = "/tip noconf priv " + b + " " + a + ' "' + c + '"';
+    b = "/tip noconf " + b + " " + a + ' "' + c + '"';
     parseFloat(a) < balance ? chat(b) : console.log("Not enough balance")
 };
 
