@@ -36,15 +36,15 @@ function handle_txt(a, c) { //txt, date
             "*" === a.substring(a.indexOf(")") + 2, a.indexOf(")") + 3) ? (console.log(d, e, b, c + ' ')) : (Process_commands(d, e, b, c));
             break;
         case "[":
-            console.log(" [ (sender_uid) <sender_name> → (recipient_uid) <recipient_name> ] message"), a.substring(a.indexOf("]") +
-                2, a.length)
-				console.log('PM sender_uid d, sender_name e , message b , date c')
+            a.substring(a.indexOf("]") + 2, a.length)
+				//console.log('PM sender_uid d, sender_name e , message b , date c')
+				var b = a.substring(a.indexOf(']') + 2, a.length);
 				Process_commands(d, e, b, c, 'pm')
     }
 };
 
 function is_master(uid){
-	if (uid == config.masterid) {
+	if (uid == config.masterID) {
 		return true
 	} else {
 		return false
@@ -52,8 +52,10 @@ function is_master(uid){
 }
 
 function Process_commands(senderuid, senderName, txt, date, pm) {
+	if(pm){}
 	var command = txt.match(/^&/);
 	var cleanText = sanitizeString(txt);
+	
 	if (command) {
 		txt = txt.substring(1);
 		txt = txt.split(/\s+/);
