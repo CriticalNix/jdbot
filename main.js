@@ -1,8 +1,12 @@
 var request = require('request');
 var fs = require("fs");
 var config = require("./config.json");
-var badwords = require("./badwords.json");
 var url = config.url;
+
+var Filter = require('bad-words'),
+  filter = new Filter();
+
+var validator = require('validator');
 
 var error_count = 0;
 
@@ -43,13 +47,9 @@ function handle_txt(a, c) { //txt, date
     }
 };
 
-function is_master(uid){
-	if (uid == config.masterID) {
-		return true
-	} else {
-		return false
-	}
-}
+function is_master(a) {
+    return a == config.masterID ? !0 : !1
+};
 
 function Process_commands(senderuid, senderName, txt, date, pm) {
 	if(pm){}
@@ -118,6 +118,7 @@ function chat(a) { // use chat('string')
 }
 
 function ExecuteChat(a) { // emit all the chats
+    a = filter.clean(a);
 	socket.emit("chat", csrf, a);
 	console.log("socket sent: " + a)
 }
@@ -125,15 +126,6 @@ function ExecuteChat(a) { // emit all the chats
 function updateChatCmds() { // call and shift all the chats
 	var a;
 	0 < cmdArray.length && (a = cmdArray[0].ChatMsgs, ExecuteChat(a), cmdArray.shift())
-};
-
-//------------------------------Badwords check---------------------------------------
-function is_this_nice(a) { //returns true if no badwords are found
-	var c = !0;
-	a = a.toLowerCase();
-	for (var b = 0; b < badwords.length; b++)
-		 - 1 < a.indexOf(badwords[b]) && (c = !1);
-	return c
 };
 
 //------------------------------command functions----------------------------------
@@ -303,15 +295,18 @@ function run_bot(cookie) {
 	});
 
 	socket.on('invest_error', function (txt) {
-		console.log('ERROR:', txt);
+		console.log('invest_error:', txt);
+		log_error('invest_error:' + txt);
 	});
 
 	socket.on('divest_error', function (txt) {
-		console.log('ERROR:', txt);
+		console.log('divest_error:', txt);
+		log_error('divest_error:' + txt);
 	});
 
 	socket.on('jderror', function (txt) {
-		console.log('ERROR:', txt);
+		console.log('jderror:',txt);
+		log_error('jderror:' + txt);
 	});
 
 	socket.on('jdmsg', function (txt) {
@@ -320,17 +315,18 @@ function run_bot(cookie) {
 
 	socket.on('form_error', function (txt) {
 		console.log('FORM ERROR:', txt);
+		log_error('FORM ERROR:' + txt);
 	});
 
 	socket.on('login_error', function (txt) {
 		console.log('LOGIN ERROR:', txt);
+		log_error('LOGIN ERROR:' + txt);
 	});
 
 	socket.on('balance', function (data) {
 		if (data) {
-			console.log(' ' + data)
+			console.log('Current balance ' + data)
 		}
-		console.log('Current balance ' + balance);
 	});
 
 	socket.on('disconnect', function () {
